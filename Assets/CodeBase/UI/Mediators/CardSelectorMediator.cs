@@ -20,11 +20,15 @@ namespace CodeBase.UI.Mediators
 
         private readonly List<CardSelectorView> _spawnedCards = new List<CardSelectorView>();
         private CardsService _cardsService;
+        private MediatorFactory _mediatorFactory;
         public GameObject GameObject => gameObject;
+        public void Show() => _canvasGroup.Show();
+        public void Hide() => _canvasGroup.Hide();
 
         [Inject]
-        public void Construct(CardsService cardsService)
+        public void Construct(CardsService cardsService, MediatorFactory mediatorFactory)
         {
+            _mediatorFactory = mediatorFactory;
             _cardsService = cardsService;
             foreach (var card in _cardsService.AllCards)
             {
@@ -49,17 +53,17 @@ namespace CodeBase.UI.Mediators
 
         private void Awake()
         {
-            CloseWindow();
-            _closeSelectorWindow.OnClick += CloseWindow;
+            Hide();
+            _closeSelectorWindow.OnClick += ProcessCloseWindow;
         }
 
         private void OnDestroy()
         {
-            _closeSelectorWindow.OnClick -= CloseWindow;
+            _closeSelectorWindow.OnClick -= ProcessCloseWindow;
             _spawnedCards.ForEach(sc=>sc.OnClick -= ProcessCardClick);
             OnCleanUp?.Invoke(this);
         }
 
-        private void CloseWindow() => _canvasGroup.Hide();
+        private async void ProcessCloseWindow() => await _mediatorFactory.Show<MenuMediator>();
     }
 }

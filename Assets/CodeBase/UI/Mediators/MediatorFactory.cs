@@ -31,7 +31,7 @@ namespace CodeBase.UI.Mediators
             _uiRoot = root.transform;
         }
 
-        public async UniTask<TMediator> Get<TMediator>() where TMediator : MonoBehaviour, IMediator
+        private async UniTask<TMediator> Get<TMediator>() where TMediator : MonoBehaviour, IMediator
         {
             if (_mediators.TryGetValue(typeof(TMediator), out var mediator))
                 return mediator as TMediator;
@@ -45,6 +45,14 @@ namespace CodeBase.UI.Mediators
             _mediators.Add(instance.GetType(), instance);
             instance.OnCleanUp += CleanUp;
             return instance;
+        }
+        
+        public async UniTask Show<TMediator>() where TMediator : MonoBehaviour, IMediator
+        {
+            var result = await Get<TMediator>();
+            foreach (var mediatorPair in _mediators)
+                mediatorPair.Value.Hide();
+            result.Show();
         }
 
         private void CleanUp(IMediator mediator)

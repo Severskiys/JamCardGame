@@ -1,4 +1,5 @@
 ﻿using System;
+using CodeBase._Tools.Helpers;
 using CodeBase.Infrastructure;
 using UnityEngine;
 using VContainer;
@@ -11,16 +12,20 @@ namespace CodeBase.UI.Mediators
 
         [SerializeField] private SimpleButton _startGameButton;
         [SerializeField] private SimpleButton _openCardSelector;
+        [SerializeField] private CanvasGroup _canvasGroup;
         
         private IGameplayStarter _gameplayStarter;
-        private CardSelectorMediator _selectorMediator;
+        private MediatorFactory _mediatorFactory;
+
         public GameObject GameObject => gameObject;
+        public void Show() => _canvasGroup.Show();
+        public void Hide() => _canvasGroup.Hide();
 
         [Inject]
-        public async void Construct(IGameplayStarter gameplayStarter, MediatorFactory mediatorFactory)
+        public void Construct(IGameplayStarter gameplayStarter, MediatorFactory mediatorFactory)
         {
+            _mediatorFactory = mediatorFactory;
             _gameplayStarter = gameplayStarter;
-            _selectorMediator = await mediatorFactory.Get<CardSelectorMediator>();
         }
         
         private void Awake()
@@ -36,7 +41,11 @@ namespace CodeBase.UI.Mediators
             OnCleanUp?.Invoke(this);
         }
 
-        private void OpenCardsSelector() => _selectorMediator.OpenWindow();
+        private async void OpenCardsSelector()
+        {
+            await _mediatorFactory.Show<CardSelectorMediator>();
+        }
+
         private void SendStartGameSignal() => _gameplayStarter.LoadGameLevel();
     }
 }

@@ -199,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameButton: {fileID: 7536678718217116690}
   _openCardSelector: {fileID: 6832774805328035771}
+  _canvasGroup: {fileID: 7205757138705094137}
 --- !u!1 &5090655627527010258
 GameObject:
   m_ObjectHideFlags: 0

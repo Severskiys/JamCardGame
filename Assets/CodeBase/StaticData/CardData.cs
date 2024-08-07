@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using CodeBase.Cards;
 using UnityEngine;
 
 namespace CodeBase.StaticData
@@ -11,5 +13,7 @@ namespace CodeBase.StaticData
         public CardType CardType;
         public int Damage;
         public Sprite Sprite;
+        public EffectType EffectType { get; set; }
+        public List<StatType> EffectStats { get; set; }
     }
 }

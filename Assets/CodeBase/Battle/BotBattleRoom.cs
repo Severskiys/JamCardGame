@@ -17,12 +17,11 @@ namespace CodeBase.Battle
         private readonly StateMachine _battleStateMachine;
         private readonly ISelfCompleteState _prepareHandState;
         private readonly GameData _gameData;
-        private CardArbiterService _cardArbiterService;
+
         public List<IPlayer> BattlePlayers => _players.Values.ToList();
         
         public BotBattleRoom(CardsService cardsService, StaticDataService staticDataService, CardArbiterService cardArbiterService)
         {
-            _cardArbiterService = cardArbiterService;
             _gameData = staticDataService.GameData();
             _cardsService = cardsService;
             _players.Clear();
@@ -36,30 +35,32 @@ namespace CodeBase.Battle
             IState pendingState = new PendingState();
             ISelfCompleteState waitPlayersInputState = new WaitPlayerInputState(_slots);
             ISelfCompleteState clearHandsState = new ClearHandsState(this);
-            ISelfCompleteState resolveCardsInteractionState = new ResolveCardsInteractionState();
-            CheckBattleEndState checkBattleEndState = new CheckBattleEndState();
+            ISelfCompleteState resolveCardsInteractionState = new ResolveCardsInteractionState(this, _slots, cardArbiterService);
+            ISelfCompleteState processEndOfTurnEffects = new ProcessEndOfTurnEffects();
+            CheckBattleEndState checkBattleEndState = new CheckBattleEndState(this);
             
             _battleStateMachine.AddTransition(_prepareHandState, waitPlayersInputState, ()=> _prepareHandState.Complete);
             _battleStateMachine.AddTransition(waitPlayersInputState, clearHandsState, ()=> waitPlayersInputState.Complete);
             _battleStateMachine.AddTransition(clearHandsState, resolveCardsInteractionState, ()=> clearHandsState.Complete);
-            _battleStateMachine.AddTransition(resolveCardsInteractionState, checkBattleEndState, ()=> resolveCardsInteractionState.Complete);
+            _battleStateMachine.AddTransition(resolveCardsInteractionState, processEndOfTurnEffects, ()=> resolveCardsInteractionState.Complete);
+            _battleStateMachine.AddTransition(processEndOfTurnEffects, checkBattleEndState, ()=> processEndOfTurnEffects.Complete);
             _battleStateMachine.AddTransition(checkBattleEndState, _prepareHandState, ()=> checkBattleEndState.ContinueBattle);
             _battleStateMachine.SetState(pendingState);
         }
         
-        public string Connect(List<ICard> selectedCardsList)
+        public BattlePlayer Connect(List<ICard> selectedCardsList)
         {
             string id = UniqueId.NewId();
-            _players.Add(id, new BattlePlayer(selectedCardsList, id, _gameData.PlayerHealth, _gameData.HandSize));
+            var player = new BattlePlayer(selectedCardsList, id, _gameData.PlayerHealth, _gameData.HandSize);
+            _players.Add(id, player);
             CreateBot();
             StartBattle();
-            return id;
+            return player;
         }
 
         private void CreateBot()
         {
             string botId = UniqueId.NewId();
-            
             List<ICard> shuffledCards = _cardsService.AllCards.Randomize().ToList();
             shuffledCards = shuffledCards.GetRange(0, _cardsService.DeckSize);
             IPlayer bot = new BattleBot(shuffledCards, botId, _gameData.PlayerHealth, _gameData.HandSize);

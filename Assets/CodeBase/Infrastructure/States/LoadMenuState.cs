@@ -40,7 +40,7 @@ namespace CodeBase.Infrastructure.States
 
         private async void OnLoaded()
         {
-            await _mediatorFactory.Get<MenuMediator>();
+            await _mediatorFactory.Show<MenuMediator>();
             Complete = true;
         }
         

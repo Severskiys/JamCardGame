@@ -7,5 +7,7 @@ namespace CodeBase.UI.Mediators
     {
         public event Action<IMediator> OnCleanUp;
         public GameObject GameObject { get; }
+        public void Show();
+        public void Hide();
     }
 }

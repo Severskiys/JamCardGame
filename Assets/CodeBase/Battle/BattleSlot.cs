@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Cards;
 
 namespace CodeBase.Battle
@@ -9,6 +10,7 @@ namespace CodeBase.Battle
         private Dictionary<string, ICard> _cardsMap = new ();
         private int _cardsCount;
         
+        public List<ICard> CardsInSlot => _cardsMap.Values.ToList();
         public BattleSlot()
         {
             ClearSlot();

@@ -16,15 +16,15 @@ namespace CodeBase.Cards
                 CardRelationsMap.Add(cardRelation.Winner, cardRelation.Losers);
         }
 
-        public (bool hasWinner, ICard winner) DetermineWinner(ICard card1, ICard card2)
+        public (bool hasWinner, string playerId) DetermineWinner(List<ICard> cards)
         {
-            if (CardRelationsMap[card1.Type].Any(loser => loser == card2.Type))
-                return (true, card1);
+            if (CardRelationsMap[cards[1].Type].Any(loser => loser == cards[2].Type))
+                return (true, cards[1].PlayerId);
             
-            if (CardRelationsMap[card2.Type].Any(loser => loser == card1.Type))
-                return (true, card2);
+            if (CardRelationsMap[cards[2].Type].Any(loser => loser == cards[1].Type))
+                return (true, cards[2].PlayerId);
             
-            return (false, null);
+            return (false, "");
         }
     }
 }
