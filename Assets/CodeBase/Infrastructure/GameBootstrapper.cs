@@ -31,9 +31,8 @@ namespace CodeBase.Infrastructure
             builder.Register<RandomService>(Lifetime.Singleton);
             builder.Register<GameFactory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
             builder.Register<MediatorFactory>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<LoadBattleState>(Lifetime.Singleton);
+            builder.Register<BattleState>(Lifetime.Singleton);
             builder.Register<LoadMenuState>(Lifetime.Singleton);
-            builder.Register<BattleLoopState>(Lifetime.Singleton);
             builder.Register<MenuState>(Lifetime.Singleton);
             builder.RegisterEntryPoint<Game>();
         }

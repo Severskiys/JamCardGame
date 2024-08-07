@@ -10,20 +10,19 @@ namespace CodeBase.Infrastructure
     {
         private readonly StateMachine _stateMachine;
         private readonly LoadMenuState _loadMenuState;
-        private LoadBattleState _loadBattleState;
+        private BattleState _battleState;
 
         public Game(IObjectResolver resolver)
         {
             _stateMachine = new StateMachine();
             _loadMenuState = resolver.Resolve<LoadMenuState>();
-            _loadBattleState = resolver.Resolve<LoadBattleState>();
+            _battleState = resolver.Resolve<BattleState>();
             _stateMachine.AddTransition(_loadMenuState, resolver.Resolve<MenuState>(), () => _loadMenuState.Complete);
-            _stateMachine.AddTransition(_loadBattleState, resolver.Resolve<BattleLoopState>(), () => _loadBattleState.Complete);
         }
 
         public void LoadGameLevel()
         {
-            _stateMachine.SetState(_loadBattleState);
+            _stateMachine.SetState(_battleState);
         }
 
         public void Start()

@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CodeBase.Cards;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CodeBase.Battle
 {
-    public class BattlePlayer : IPlayer
+    public class BattlePlayer : IPlayer, IBattleCardsConductor
     {
+        public event Action OnFillHand;
+        
         private string _id;
+        private IBattleRoom _battleRoom;
         public bool IsAlive => Health > 0;
         public string Id { get; }
         public int Health { get; set; }
@@ -30,6 +34,8 @@ namespace CodeBase.Battle
                 Deck.Remove(rndCard);
                 Hand.Add(rndCard);
             }
+            
+            OnFillHand?.Invoke();
         }
 
         public void ClearHandsToDiscard()
@@ -39,7 +45,15 @@ namespace CodeBase.Battle
             
             Hand.Clear();
         }
-
+        
+        public void DiscardCardsFromBattle()
+        {
+            foreach (var card in SetToBattle)
+                Discard.Add(card);
+            
+            SetToBattle.Clear();
+        }
+        
         public void SetDamage(int damage)
         {
             Health -= damage;
@@ -54,23 +68,28 @@ namespace CodeBase.Battle
         {
            
         }
-
-        public void DiscardCardsFromBattle()
+        
+        public BattlePlayer(List<ICard> deck, string id, int health, int handSize, IBattleRoom battleRoom)
         {
-            foreach (var card in SetToBattle)
-                Discard.Add(card);
-            
-            SetToBattle.Clear();
-        }
-
-        public BattlePlayer(List<ICard> deck, string id, int health, int handSize)
-        {
+            _battleRoom = battleRoom;
             Id = id;
             Health = health;
             HandSize = handSize;
             Deck = new List<ICard>();
             foreach (var card in deck)
-                Deck.Add(new BattleCard(card, id));
+                Deck.Add(new BattleCard(card, id, this));
+        }
+
+        public bool TrySetCard(ICard card, int slotIndex)
+        {
+            if (_battleRoom.TrySetCard(card, slotIndex))
+            {
+                Hand.Remove(card);
+                SetToBattle.Add(card);
+                return true;
+            }
+            
+            return false;
         }
     }
 }

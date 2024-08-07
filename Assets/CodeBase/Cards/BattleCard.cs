@@ -13,13 +13,14 @@ namespace CodeBase.Cards
         public string Name { get;}
         public int Damage { get;}
         public CardType Type { get;}
-        
         public bool IsSelected { get; set; }
         
         private readonly CardData _data;
-        
-        public BattleCard(ICard card, string playerId)
+        private IBattleCardsConductor _conductor;
+
+        public BattleCard(ICard card, string playerId, IBattleCardsConductor conductor)
         {
+            _conductor = conductor;
             IsSelected = true;
             PlayerId = playerId;
             EffectType = card.EffectType;
@@ -48,5 +49,8 @@ namespace CodeBase.Cards
         {
 
         }
+
+        public bool TrySetInBattleSlot(int battleSlotIndex) => _conductor.TrySetCard(this, battleSlotIndex);
+        
     }
 }

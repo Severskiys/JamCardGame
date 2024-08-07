@@ -31,7 +31,7 @@ namespace CodeBase.UI.Mediators
             _uiRoot = root.transform;
         }
 
-        private async UniTask<TMediator> Get<TMediator>() where TMediator : MonoBehaviour, IMediator
+        public async UniTask<TMediator> Get<TMediator>() where TMediator : MonoBehaviour, IMediator
         {
             if (_mediators.TryGetValue(typeof(TMediator), out var mediator))
                 return mediator as TMediator;

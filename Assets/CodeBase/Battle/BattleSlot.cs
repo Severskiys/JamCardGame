@@ -35,5 +35,6 @@ namespace CodeBase.Battle
         }
 
         public bool FullyEquipped => _cardsCount >= Capacity;
+        public int Index { get; set; }
     }
 }

@@ -48,26 +48,25 @@ namespace CodeBase.Battle
             _battleStateMachine.SetState(pendingState);
         }
         
-        public BattlePlayer Connect(List<ICard> selectedCardsList)
+        public BattlePlayer CreatePlayer()
         {
             string id = UniqueId.NewId();
-            var player = new BattlePlayer(selectedCardsList, id, _gameData.PlayerHealth, _gameData.HandSize);
+            var player = new BattlePlayer(_cardsService.SelectedCards, id, _gameData.PlayerHealth, _gameData.HandSize, this);
             _players.Add(id, player);
-            CreateBot();
-            StartBattle();
             return player;
         }
 
-        private void CreateBot()
+        public BattlePlayer CreateBot()
         {
             string botId = UniqueId.NewId();
             List<ICard> shuffledCards = _cardsService.AllCards.Randomize().ToList();
             shuffledCards = shuffledCards.GetRange(0, _cardsService.DeckSize);
-            IPlayer bot = new BattleBot(shuffledCards, botId, _gameData.PlayerHealth, _gameData.HandSize);
+            BattleBot bot = new BattleBot(shuffledCards, botId, _gameData.PlayerHealth, _gameData.HandSize, this);
             _players.Add(botId, bot);
+            return bot;
         }
 
-        private void StartBattle() => _battleStateMachine.SetState(_prepareHandState);
+        public void StartBattle() => _battleStateMachine.SetState(_prepareHandState);
         
         public bool TrySetCard(ICard card, int slotIndex) => _slots[slotIndex].PutCard(card);
 
