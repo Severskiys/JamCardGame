@@ -1,4 +1,5 @@
-﻿using CodeBase.UI.Mediators;
+﻿using CodeBase.UI;
+using CodeBase.UI.Mediators;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,7 +33,7 @@ namespace CodeBase.Cards
 
         public void OnDrag(PointerEventData eventData)
         {
-            transform.localPosition += (Vector3)eventData.delta;
+            transform.localPosition += new Vector3(eventData.delta.x, eventData.delta.y, 0) * UiRoot.GetScale() * 2f;
         }
 
         public void OnEndDrag(PointerEventData eventData)
