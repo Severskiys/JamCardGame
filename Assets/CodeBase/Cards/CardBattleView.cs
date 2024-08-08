@@ -1,42 +1,39 @@
 ﻿using CodeBase.UI.Mediators;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CodeBase.Cards
 {
     public class CardBattleView : CardView, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private BattleCard _battleCard;
+        private ICard _battleCard;
 
-        public void Init(BattleCard battleCard)
+        public override void Init(ICard card)
         {
-            _battleCard = battleCard;
+            base.Init(card);
+            _battleCard = card;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
             /*
-             
-             _itemConfig.DisableNotification();
-              SetNotification();
-              
+                           
               _draggedItemView.transform.position = transform.position;
               _draggedItemView.SetSprite(_itemConfig.Icon);
               _itemView.color = Color.clear;
               _draggedItemView.SetColor(Color.white);
-              
               OnBeginDragItem?.Invoke(_itemConfig);
-              
-              */
+            */
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            //  _draggedItemView.Move(eventData.delta);
+            transform.localPosition += (Vector3)eventData.delta;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (eventData != null 
+            if (eventData != null
                 && eventData.pointerEnter.TryGetComponent(out BattleSlotView battleSlot)
                 && _battleCard.TrySetInBattleSlot(battleSlot.Index))
             {
@@ -50,6 +47,7 @@ namespace CodeBase.Cards
 
         private void ReturnCard()
         {
+            transform.localPosition = Vector3.zero;
         }
     }
 }

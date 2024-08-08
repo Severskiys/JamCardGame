@@ -44,24 +44,38 @@ namespace CodeBase.Infrastructure.States
             _room = new BotBattleRoom(_cardsService, _staticData, _cardArbiterService);
             _player = _room.CreatePlayer();
             _bot = _room.CreateBot();
-            _room.StartBattle();
-            _isLoaded = true;
+            _player.OnChangeHealth += SetPlayerHealth;
+            _player.OnMoveHandToDiscard += MoveHandCardsToDiscard;
+            _player.OnMoveCardsFromBattleToDiscard += MovePlayerBattleCardsToDiscard;
+            _bot.OnMoveCardsFromBattleToDiscard += MoveEnemyBattleCardsToDiscard;
+            _bot.OnChangeHealth += SetEnemyHealth;
+            _bot.OnSetBattleCards += SetEnemyBattleCards;
             _player.OnFillHand += ProcessHandFill;
-            SetDeckNumbers();
+            _player.OnWin += ShowWin;
+            _player.OnLose += ShowLoose;
+            _room.StartBattle();
+            InitBattleMediator();
+            await _mediatorFactory.Show<BattleMediator>();
+            _isLoaded = true;
         }
-
-        private void SetDeckNumbers() => _battleMediator.SetDeckStats(_player.Deck.Count, _player.Discard.Count);
-
+        
         private void ProcessHandFill()
         {
             _battleMediator.SetHand(_player.Hand);
-            SetDeckNumbers();
+            InitBattleMediator();
         }
 
         public void OnExit()
         {
+            _room.Dispose();
+            _player.OnChangeHealth -= SetPlayerHealth;
+            _bot.OnChangeHealth -= SetEnemyHealth;
+            _bot.OnSetBattleCards -= SetEnemyBattleCards;
+            _player.OnFillHand -= ProcessHandFill;
+            _player.OnWin -= ShowWin;
+            _player.OnLose -= ShowLoose;
         }
-
+        
         public void Tick()
         {
             if(_isLoaded == false)
@@ -69,5 +83,19 @@ namespace CodeBase.Infrastructure.States
             
             _room.Tick();
         }
+        
+        
+        private void SetEnemyBattleCards() => _battleMediator.SetEnemyBattleCards(_bot.SetToBattle);
+
+        private void ShowLoose() => Loose = true;
+
+        private void ShowWin() => Win = true;
+
+        private void SetEnemyHealth() => _battleMediator.SetEnemyHealth(_bot.Health, _bot.MaxHealth);
+        private void SetPlayerHealth() => _battleMediator.SetPlayerHealth(_player.Health, _player.MaxHealth);
+        private void InitBattleMediator() => _battleMediator.Init(_player.Deck.Count, _player.Discard.Count);
+        private void MovePlayerBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_player.SetToBattle);
+        private void MoveEnemyBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_bot.SetToBattle);
+        private void MoveHandCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_player.Hand);
     }
 }

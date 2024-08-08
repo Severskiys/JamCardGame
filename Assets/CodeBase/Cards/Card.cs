@@ -54,5 +54,10 @@ namespace CodeBase.Cards
         {
 
         }
+
+        public bool TrySetInBattleSlot(int battleSlotIndex)
+        {
+            return false;
+        }
     }
 }

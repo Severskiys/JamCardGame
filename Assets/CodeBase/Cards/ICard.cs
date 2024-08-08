@@ -18,5 +18,6 @@ namespace CodeBase.Cards
         public void SetWin();
         public void SetLose();
         public void SetEqual();
+        public bool TrySetInBattleSlot(int battleSlotIndex);
     }
 }
