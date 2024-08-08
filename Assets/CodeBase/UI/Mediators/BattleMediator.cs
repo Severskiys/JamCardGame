@@ -24,7 +24,13 @@ namespace CodeBase.UI.Mediators
 
         private readonly Dictionary<ICard, CardBattleView> _spawnedCards = new();
         public GameObject GameObject => gameObject;
-        public void Show() => _canvasGroup.Show();
+        public void Show()
+        {
+            _playerHpView.fillAmount = 1.0f;
+            _enemyHpView.fillAmount = 1.0f;
+            _canvasGroup.Show();
+        }
+
         public void Hide() => _canvasGroup.Hide();
         private void OnDestroy() => OnCleanUp?.Invoke(this);
 
