@@ -7,6 +7,9 @@ namespace CodeBase.Cards
     public class BattleCard : ICard
     {       
         public event Action OnChangeState;
+        public event Action OnShowWin;
+        public event Action OnShowLose;
+        public event Action OnShowEqual;
         public EffectType EffectType { get; }
         public List<StatType> EffectStats { get; }
         public string PlayerId { get;}
@@ -35,20 +38,11 @@ namespace CodeBase.Cards
             
         }
         
-        public void SetWin()
-        {
-            
-        }
+        public void SetWin() => OnShowWin?.Invoke();
 
-        public void SetLose()
-        {
-            
-        }
+        public void SetLose() => OnShowLose?.Invoke();
 
-        public void SetEqual()
-        {
-
-        }
+        public void SetEqual() => OnShowEqual?.Invoke();
 
         public bool TrySetInBattleSlot(int battleSlotIndex) => _conductor.TrySetCard(this, battleSlotIndex);
         

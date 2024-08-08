@@ -69,6 +69,9 @@ namespace CodeBase.Battle
         {
             foreach (var player in _playersHolder.BattlePlayers)
                 player.DiscardCardsFromBattle();
+
+            foreach (var slot in _slots)
+                slot.ClearSlot();
         }
 
         public void Tick()

@@ -61,7 +61,7 @@ namespace CodeBase.Battle
             string botId = UniqueId.NewId();
             List<ICard> shuffledCards = _cardsService.AllCards.Randomize().ToList();
             shuffledCards = shuffledCards.GetRange(0, _cardsService.DeckSize);
-            BattleBot bot = new BattleBot(shuffledCards, botId, _gameData.PlayerHealth, _gameData.HandSize, this);
+            BattleBot bot = new BattleBot(shuffledCards, botId, _gameData.PlayerHealth, _gameData.HandSize, this, _slots);
             _players.Add(botId, bot);
             return bot;
         }
@@ -70,6 +70,16 @@ namespace CodeBase.Battle
         
         public bool TrySetCard(ICard card, int slotIndex) => _slots[slotIndex].PutCard(card);
 
-        public void Tick() => _battleStateMachine.Tick();
+        public void Tick()
+        {
+            _battleStateMachine.Tick();
+            _battleStateMachine.LogState();
+        }
+
+        public void Dispose()
+        {
+            _players.Clear();
+            _slots.Clear();
+        }
     }
 }

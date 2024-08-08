@@ -18,11 +18,11 @@ namespace CodeBase.Cards
 
         public (bool hasWinner, string playerId) DetermineWinner(List<ICard> cards)
         {
-            if (CardRelationsMap[cards[1].Type].Any(loser => loser == cards[2].Type))
-                return (true, cards[1].PlayerId);
+            if (CardRelationsMap[cards[0].Type].Any(loser => loser == cards[1].Type))
+                return (true, cards[0].PlayerId);
             
-            if (CardRelationsMap[cards[2].Type].Any(loser => loser == cards[1].Type))
-                return (true, cards[2].PlayerId);
+            if (CardRelationsMap[cards[1].Type].Any(loser => loser == cards[0].Type))
+                return (true, cards[1].PlayerId);
             
             return (false, "");
         }

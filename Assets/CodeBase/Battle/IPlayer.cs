@@ -7,7 +7,7 @@ namespace CodeBase.Battle
     {
         public bool IsAlive { get; }
         public string Id { get;}
-        public int Health { get; set; }
+        public int Health { get;  }
         public int HandSize { get; }
         public List<ICard> Deck { get; }
         public List<ICard> Hand { get; }

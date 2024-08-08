@@ -18,13 +18,13 @@ namespace CodeBase.Battle
 
             if (ContinueBattle == false)
             {
-                var loser = _playersHolder.BattlePlayers.FirstOrDefault(p => p.IsAlive == false);
-                var winner = _playersHolder.BattlePlayers.FirstOrDefault(p => p.IsAlive);
-
-                loser!.SetLose();
-                if (winner != default)
-                    winner.SetWin();
-                
+                foreach (var player in _playersHolder.BattlePlayers)
+                {
+                    if (player.IsAlive)
+                        player.SetWin();
+                    else
+                        player.SetLose();
+                }
             }
         }
 

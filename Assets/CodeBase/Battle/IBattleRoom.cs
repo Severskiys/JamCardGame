@@ -10,5 +10,6 @@ namespace CodeBase.Battle
         public void StartBattle();
         public bool TrySetCard(ICard cardId, int slotIndex);
         public void Tick();
+        public void Dispose();
     }
 }

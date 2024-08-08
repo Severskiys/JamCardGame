@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   DeckSize: 9
-  PlayerHealth: 100
+  PlayerHealth: 25
   HandSize: 4
   DiscardUnselectedCards: 1
   BattleSlotsCount: 2

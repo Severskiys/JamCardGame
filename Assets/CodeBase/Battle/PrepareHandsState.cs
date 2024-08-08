@@ -1,11 +1,13 @@
 ﻿using CodeBase._Tools.StateMachine;
+using UnityEngine;
 
 namespace CodeBase.Battle
 {
     public class PrepareHandsState : ISelfCompleteState
     {
         private IPlayersHolder _playersHolder;
-        public bool Complete { get; }
+        public bool Complete { get; private set; }
+        private float _timer = 3.0f;
         
         public PrepareHandsState(IPlayersHolder playersHolder)
         {
@@ -14,6 +16,7 @@ namespace CodeBase.Battle
 
         public void OnEnter()
         {
+            Complete = false;
             foreach (IPlayer player in _playersHolder.BattlePlayers)
             {
                 if (player.Hand.Count < player.HandSize)
@@ -27,6 +30,8 @@ namespace CodeBase.Battle
 
         public void Tick()
         {
+            _timer -= Time.deltaTime;
+            Complete = _timer < 0;
         }
 
 

@@ -4,9 +4,11 @@ namespace CodeBase.Battle
 {
     public class ProcessEndOfTurnEffects : ISelfCompleteState
     {
+        public bool Complete { get; private set; }
+
         public void OnEnter()
         {
-            
+            Complete = true;
         }
 
         public void OnExit()
@@ -18,7 +20,5 @@ namespace CodeBase.Battle
         {
 
         }
-
-        public bool Complete { get; }
     }
 }
