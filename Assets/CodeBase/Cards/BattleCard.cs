@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.StaticData;
+using UnityEngine;
 
 namespace CodeBase.Cards
 {
@@ -15,6 +16,7 @@ namespace CodeBase.Cards
         public string PlayerId { get;}
         public string Name { get;}
         public int Damage { get;}
+        public Sprite Sprite { get; }
         public CardType Type { get;}
         public bool IsSelected { get; set; }
         
@@ -31,6 +33,7 @@ namespace CodeBase.Cards
             Name = card.Name;
             Damage = card.Damage;
             Type = card.Type;
+            Sprite = card.Sprite;
         }
         
         public void ChangeSelection()

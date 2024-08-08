@@ -53,8 +53,10 @@ namespace CodeBase.UI.Mediators
             for (var i = 0; i < playerHand.Count; i++)
             {
                 CardBattleView instance = Instantiate(_cardPrefab, _deckView.transform);
-                instance.transform.SetParent(_handSlots[i].transform, true);
-                instance.transform.DOLocalJump(Vector3.zero, 1.0f, 1, 0.25f).SetLink(instance.gameObject);
+                instance.transform.SetParent(_handSlots[i].transform, false);
+                instance.transform.DOLocalJump(Vector3.zero, 1.0f, 1, 0.35f)
+                    .OnComplete(instance.Show)
+                    .SetLink(instance.gameObject);
                 _spawnedCards.Add(playerHand[i], instance);
                 instance.Init(playerHand[i]);
             }
@@ -70,9 +72,8 @@ namespace CodeBase.UI.Mediators
             _spawnedCards.Clear();
         }
 
-        public void SetEnemyHealth(int health, int maxHealth) => _enemyHpView.fillAmount = (float)health / maxHealth;
-        public void SetPlayerHealth(int health, int maxHealth) => _playerHpView.fillAmount = (float)health / maxHealth;
-
+        public void SetEnemyHealth(int health, int maxHealth) => _enemyHpView.DOFillAmount((float)health / maxHealth, 0.15f);
+        public void SetPlayerHealth(int health, int maxHealth) => _playerHpView.DOFillAmount((float)health / maxHealth, 0.15f);
         public void SetEnemyBattleCards(List<ICard> cards)
         {
             for (var i = 0; i < cards.Count; i++)
@@ -92,6 +93,12 @@ namespace CodeBase.UI.Mediators
                 _spawnedCards[card].transform.DOMove(_discardView.transform.position, 0.35f).SetLink(_spawnedCards[card].gameObject);
                 _spawnedCards[card].transform.DOScale(.25f, 0.35f).SetLink(_spawnedCards[card].gameObject);
             }
+        }
+
+        public void ShowCards(List<ICard> cards)
+        {
+            foreach (var card in cards)
+                _spawnedCards[card].Show();
         }
     }
 }

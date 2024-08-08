@@ -33,7 +33,7 @@ namespace CodeBase.Battle
             _battleStateMachine = new StateMachine();
             _prepareHandState = new PrepareHandsState(this);
             IState pendingState = new PendingState();
-            ISelfCompleteState waitPlayersInputState = new WaitPlayerInputState(_slots);
+            ISelfCompleteState waitPlayersInputState = new WaitPlayerInputState(_slots, this);
             ISelfCompleteState clearHandsState = new ClearHandsState(this);
             ISelfCompleteState resolveCardsInteractionState = new ResolveCardsInteractionState(this, _slots, cardArbiterService);
             ISelfCompleteState processEndOfTurnEffects = new ProcessEndOfTurnEffects();

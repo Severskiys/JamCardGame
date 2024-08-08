@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Tools.PersistentValues;
 using CodeBase.StaticData;
+using UnityEngine;
 
 namespace CodeBase.Cards
 {
@@ -19,6 +20,7 @@ namespace CodeBase.Cards
         public string PlayerId { get; set; }
         public string Name => _data.Name;
         public int Damage => _data.Damage;
+        public Sprite Sprite => _data.Sprite;
         public CardType Type => _data.CardType;
         
 

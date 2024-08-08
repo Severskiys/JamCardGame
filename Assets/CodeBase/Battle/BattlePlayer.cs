@@ -14,6 +14,7 @@ namespace CodeBase.Battle
         public event Action OnChangeHealth;
         public event Action OnMoveHandToDiscard;
         public event Action OnMoveCardsFromBattleToDiscard;
+        public event Action PrepareToCompareState;
         
         public Action OnSetBattleCards;
         
@@ -29,6 +30,7 @@ namespace CodeBase.Battle
         public List<ICard> Hand { get; }
         public List<ICard> SetToBattle { get; }
         public List<ICard> Discard { get; }
+
 
 
         public BattlePlayer(List<ICard> deck, string id, int health, int handSize, IBattleRoom battleRoom)
@@ -92,6 +94,8 @@ namespace CodeBase.Battle
             OnChangeHealth?.Invoke();
         }
 
+        public void SetPrepareToCompareState() => PrepareToCompareState?.Invoke();
+        
         public void SetLose() => OnLose?.Invoke();
 
         public void SetWin() => OnWin?.Invoke();

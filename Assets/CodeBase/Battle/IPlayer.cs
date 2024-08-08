@@ -19,5 +19,6 @@ namespace CodeBase.Battle
         public void SetLose();
         public void SetWin();
         public void DiscardCardsFromBattle();
+        public void SetPrepareToCompareState();
     }
 }

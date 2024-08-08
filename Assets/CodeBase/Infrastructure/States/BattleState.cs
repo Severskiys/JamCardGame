@@ -44,6 +44,7 @@ namespace CodeBase.Infrastructure.States
             _player.OnChangeHealth += SetPlayerHealth;
             _player.OnMoveHandToDiscard += MoveHandCardsToDiscard;
             _player.OnMoveCardsFromBattleToDiscard += MovePlayerBattleCardsToDiscard;
+            _player.PrepareToCompareState += SetCompareStateView;
             _bot.OnMoveCardsFromBattleToDiscard += MoveEnemyBattleCardsToDiscard;
             _bot.OnChangeHealth += SetEnemyHealth;
             _bot.OnSetBattleCards += SetEnemyBattleCards;
@@ -56,6 +57,8 @@ namespace CodeBase.Infrastructure.States
             _isLoaded = true;
         }
 
+        private void SetCompareStateView() => _battleMediator.ShowCards(_bot.SetToBattle);
+
         private void ProcessHandFill()
         {
             _battleMediator.SetHand(_player.Hand);
@@ -67,6 +70,10 @@ namespace CodeBase.Infrastructure.States
             _ = _mediatorFactory.Show<EndBattleMediator>();
             _room.Dispose();
             _player.OnChangeHealth -= SetPlayerHealth;
+            _player.OnMoveHandToDiscard -= MoveHandCardsToDiscard;
+            _player.OnMoveCardsFromBattleToDiscard -= MovePlayerBattleCardsToDiscard;
+            _player.PrepareToCompareState -= SetCompareStateView;
+            _bot.OnMoveCardsFromBattleToDiscard -= MoveEnemyBattleCardsToDiscard;
             _bot.OnChangeHealth -= SetEnemyHealth;
             _bot.OnSetBattleCards -= SetEnemyBattleCards;
             _player.OnFillHand -= ProcessHandFill;
