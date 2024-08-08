@@ -57,7 +57,10 @@ namespace CodeBase.UI.Mediators
         private void ClearSpawnedCards()
         {
             foreach (var card in _spawnedCards)
+            {
+                card.Value.Discard();
                 Destroy(card.Value.gameObject);
+            }
             _spawnedCards.Clear();
         }
 
@@ -70,7 +73,7 @@ namespace CodeBase.UI.Mediators
             {
                 CardBattleView instance = Instantiate(_cardPrefab, _enemySlots[i].transform);
                 instance.transform.DOScale(0, 0).SetLink(instance.gameObject);
-                instance.transform.DOScale(1.0f, 0).SetLink(instance.gameObject);
+                instance.transform.DOScale(1.0f, 0.75f).SetLink(instance.gameObject);
                 _spawnedCards.Add(cards[i], instance);
                 instance.Init(cards[i]);
             }

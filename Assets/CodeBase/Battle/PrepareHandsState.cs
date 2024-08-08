@@ -7,7 +7,7 @@ namespace CodeBase.Battle
     {
         private IPlayersHolder _playersHolder;
         public bool Complete { get; private set; }
-        private float _timer = 3.0f;
+        private float _timer;
         
         public PrepareHandsState(IPlayersHolder playersHolder)
         {
@@ -16,6 +16,7 @@ namespace CodeBase.Battle
 
         public void OnEnter()
         {
+            _timer = 1.5f;
             Complete = false;
             foreach (IPlayer player in _playersHolder.BattlePlayers)
             {

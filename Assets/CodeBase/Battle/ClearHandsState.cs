@@ -17,7 +17,7 @@ namespace CodeBase.Battle
         {
             Complete = false;
             _playersHolder.BattlePlayers.ForEach(bp=>bp.ClearHandsToDiscard());
-            _timer = 1.5f;
+            _timer = 0.35f;
         }
 
         public void OnExit()

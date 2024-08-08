@@ -8,6 +8,9 @@ namespace CodeBase.Cards
     public class Card : ICard
     {
         public event Action OnChangeState;
+        public event Action OnShowWin;
+        public event Action OnShowLose;
+        public event Action OnShowEqual;
         private readonly CardData _data;
         private readonly BoolDataValueSavable _selectState;
         

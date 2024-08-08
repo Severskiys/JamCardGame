@@ -6,6 +6,10 @@ namespace CodeBase.Cards
 {
     public interface ICard
     {
+        event Action OnChangeState;
+        public event Action OnShowWin;
+        public event Action OnShowLose;
+        public event Action OnShowEqual;
         public EffectType EffectType { get; }
         public List<StatType> EffectStats { get; }
         public string PlayerId { get; }
@@ -14,7 +18,6 @@ namespace CodeBase.Cards
         public CardType Type { get; }
         bool IsSelected { get; }
         public void ChangeSelection();
-        event Action OnChangeState;
         public void SetWin();
         public void SetLose();
         public void SetEqual();

@@ -25,7 +25,7 @@ namespace CodeBase.Battle
         public void OnEnter()
         {
             Complete = false;
-            _timer = 5.0f;
+            _timer = 1.5f;
             foreach (var battleSlot in _slots)
             {
                 (bool hasWinner, string winnerId) result = _cardArbiterService.DetermineWinner(battleSlot.CardsInSlot);

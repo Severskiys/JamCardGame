@@ -18,6 +18,7 @@ namespace CodeBase.Infrastructure
             _loadMenuState = resolver.Resolve<LoadMenuState>();
             _battleState = resolver.Resolve<BattleState>();
             _stateMachine.AddTransition(_loadMenuState, resolver.Resolve<MenuState>(), () => _loadMenuState.Complete);
+            _stateMachine.AddTransition(_battleState, resolver.Resolve<MenuState>(), () => _battleState.Complete);
         }
 
         public void LoadGameLevel()
