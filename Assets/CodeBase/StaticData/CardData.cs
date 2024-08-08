@@ -12,8 +12,15 @@ namespace CodeBase.StaticData
         public string Id;
         public CardType CardType;
         public int Damage;
+        public EffectType EffectType;
+        public List<SimpleStat> EffectStats;
         public Sprite Sprite;
-        public EffectType EffectType { get; set; }
-        public List<StatType> EffectStats { get; set; }
+    }
+    
+    [Serializable]
+    public class SimpleStat
+    {
+        public StatType Type;
+        public float Value;
     }
 }

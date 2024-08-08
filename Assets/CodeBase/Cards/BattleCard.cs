@@ -11,7 +11,7 @@ namespace CodeBase.Cards
         public event Action OnShowLose;
         public event Action OnShowEqual;
         public EffectType EffectType { get; }
-        public List<StatType> EffectStats { get; }
+        public List<SimpleStat> EffectStats { get; }
         public string PlayerId { get;}
         public string Name { get;}
         public int Damage { get;}

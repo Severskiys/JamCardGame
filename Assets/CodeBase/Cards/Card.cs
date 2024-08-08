@@ -15,7 +15,7 @@ namespace CodeBase.Cards
         private readonly BoolDataValueSavable _selectState;
         
         public EffectType EffectType  => _data.EffectType;
-        public List<StatType> EffectStats  => _data.EffectStats;
+        public List<SimpleStat> EffectStats  => _data.EffectStats;
         public string PlayerId { get; set; }
         public string Name => _data.Name;
         public int Damage => _data.Damage;

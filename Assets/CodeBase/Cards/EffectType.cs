@@ -2,6 +2,7 @@
 {
     public enum EffectType
     {
+        NONE = 0,
         Heal = 100,
         Bleed = 200,
         Shield = 300,
@@ -14,6 +15,6 @@
         ShieldOnLoose = 1000,
         ShieldHit = 1100,
         DamageReflection = 1200,
-        ShieldCrush = 1300
+        ShieldCrush = 1300,
     }
 }
