@@ -33,7 +33,7 @@ namespace CodeBase.Cards
 
         public void OnDrag(PointerEventData eventData)
         {
-            transform.localPosition += new Vector3(eventData.delta.x, eventData.delta.y, 0) * UiRoot.GetScale() * 2f;
+            transform.localPosition += new Vector3(eventData.delta.x, eventData.delta.y, 0) * UiRoot.GetScale();
         }
 
         public void OnEndDrag(PointerEventData eventData)
