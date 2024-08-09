@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Cards;
 using UnityEngine;
 
@@ -16,9 +17,10 @@ namespace CodeBase.Battle
 
         public override void StartSelectingCardsToBattle()
         {
+            var availableCards = Hand.Where(c => c.IsBanned == false).ToList();
             for (var index = 0; index < _slots.Count; index++)
             {
-                var rndCard = Hand[Random.Range(0, Hand.Count)];
+                var rndCard = availableCards[Random.Range(0, availableCards.Count)];
                 TrySetCard(rndCard, index);
             }
             

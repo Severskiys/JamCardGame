@@ -16,7 +16,7 @@ namespace CodeBase.Battle
         
         public void OnEnter()
         {
-            _timer = 1.55f;
+            _timer = 1.0f;
         }
 
         public void OnExit()
