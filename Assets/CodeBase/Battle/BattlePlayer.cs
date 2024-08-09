@@ -80,18 +80,24 @@ namespace CodeBase.Battle
                 _ => EffectType.NONE
             };
             
-            if (checkEffect != EffectType.NONE && HaveEffect(checkEffect))
+            if (HaveEffect(checkEffect))
             {
                 rndCard.IsBanned = true;
                 if (Effects[checkEffect].CheckExpired())
                     Effects.Remove(checkEffect);
             }
-
-            if (HaveEffect(EffectType.HealBan) && rndCard.EffectType == EffectType.Heal)
+            else
             {
-                rndCard.IsBanned = true;
-                if (Effects[EffectType.HealBan].CheckExpired())
-                    Effects.Remove(EffectType.HealBan);
+                if (HaveEffect(EffectType.HealBan) && rndCard.EffectType == EffectType.Heal)
+                {
+                    rndCard.IsBanned = true;
+                    if (Effects[EffectType.HealBan].CheckExpired())
+                        Effects.Remove(EffectType.HealBan);
+                }
+                else
+                {
+                    rndCard.IsBanned = false;  
+                }
             }
         }
 
@@ -124,7 +130,7 @@ namespace CodeBase.Battle
         public void SetPrepareToCompareState()
         {
             foreach (var card in Hand)
-                card.IsBanned = false;
+                CheckCardsEffects(card);
             
             PrepareToCompareState?.Invoke();
         }

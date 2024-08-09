@@ -57,8 +57,8 @@ namespace CodeBase.Cards
 
             set
             {
-                OnChangeState?.Invoke();
                 _isBanned = value;
+                OnChangeState?.Invoke();
             }
         }
     }

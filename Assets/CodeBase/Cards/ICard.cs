@@ -7,7 +7,7 @@ namespace CodeBase.Cards
 {
     public interface ICard
     {
-        event Action OnChangeState;
+        public event Action OnChangeState;
         public event Action OnShowWin;
         public event Action OnShowLose;
         public event Action OnShowEqual;
