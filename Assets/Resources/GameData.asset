@@ -13,116 +13,125 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   DeckSize: 15
-  PlayerHealth: 100
+  PlayerHealth: 5
   HandSize: 5
-  DiscardUnselectedCards: 1
+  OneRoundLength: 3
   BattleSlotsCount: 1
   CardDatas:
-  - Name: Stone
+  - Name: 
     Id: 4fd8ec3f-8faf-4a79-afd3-830bfc5577df
     CardType: 0
     Damage: 5
     EffectType: 0
     EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Shield Stone
+  - Name: Shield 1
     Id: 6a7e749e-f93e-4e41-bde7-fa9d580b21e6
     CardType: 0
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Shield Stone
+    EffectType: 300
+    EffectStats:
+    - Type: 10
+      Value: 1
+  - Name: Shield 2
     Id: 736d77b3-ce03-4954-bdb8-365152e8f3a9
     CardType: 0
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Disable Stone
+    EffectType: 300
+    EffectStats:
+    - Type: 10
+      Value: 2
+  - Name: Disable Paper
     Id: d93570e0-6828-400b-99c1-1e3a2a14dbf8
     CardType: 0
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Disable Stone
+    EffectType: 500
+    EffectStats:
+    - Type: 20
+      Value: 1
+  - Name: Disable Scissors
     Id: 98d48470-57f5-47d4-a3d6-f85f3dda075a
     CardType: 0
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Scissor
+    EffectType: 600
+    EffectStats:
+    - Type: 20
+      Value: 1
+  - Name: 
     Id: 0a4b2b0c-9172-4288-9be8-600a72d0a7b2
     CardType: 10
     Damage: 5
     EffectType: 0
     EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Bloody Scissors
+  - Name: Bleed 2
     Id: 83cab4a7-2684-4f3b-898f-3b6819272985
     CardType: 10
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Bloody Scissors
+    EffectType: 200
+    EffectStats:
+    - Type: 10
+      Value: 1
+    - Type: 20
+      Value: 2
+  - Name: Bleed 3
     Id: 165682a3-7a3c-49a9-88ef-80fac6b6838e
     CardType: 10
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Anti-Heal Scissors
+    EffectType: 200
+    EffectStats:
+    - Type: 10
+      Value: 1
+    - Type: 20
+      Value: 3
+  - Name: Disable Heal 1
     Id: 314dce42-fab5-46ae-91db-8ca45b294599
     CardType: 10
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Anti-Heal Scissors
+    EffectType: 800
+    EffectStats:
+    - Type: 20
+      Value: 1
+  - Name: Disable Heal 2
     Id: 56f77390-b99e-4eea-8a7d-04f6a246bff5
     CardType: 10
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Paper
+    EffectType: 800
+    EffectStats:
+    - Type: 20
+      Value: 2
+  - Name: 
     Id: f265d0cc-d25d-40ea-b56b-69e8880f0a60
     CardType: 100
     Damage: 5
     EffectType: 0
     EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Heal Paper
+  - Name: Heal 2
     Id: 33e1de19-5f45-4129-9083-6f7fdcd7cb6e
     CardType: 100
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Heal Paper
+    EffectType: 100
+    EffectStats:
+    - Type: 10
+      Value: 2
+  - Name: Heal 5
     Id: a55e70b9-369a-4c67-941b-481c7b83a4cf
     CardType: 100
     Damage: 4
-    EffectType: 0
-    EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Dispell Paper
+    EffectType: 100
+    EffectStats:
+    - Type: 10
+      Value: 5
+  - Name: Dispell
     Id: e69a080a-8b15-490f-8d48-fa647b88d5e1
     CardType: 100
     Damage: 4
-    EffectType: 0
+    EffectType: 400
     EffectStats: []
-    Sprite: {fileID: 0}
-  - Name: Dispell Paper
+  - Name: Dispell
     Id: 8fb19422-a4be-4d85-ae0d-2122686ae4a6
     CardType: 100
     Damage: 4
-    EffectType: 0
+    EffectType: 400
     EffectStats: []
-    Sprite: {fileID: 0}
   CardsRelations:
   - Winner: 0
     Losers: 0a000000

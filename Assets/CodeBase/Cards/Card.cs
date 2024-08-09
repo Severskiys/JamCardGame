@@ -21,7 +21,7 @@ namespace CodeBase.Cards
         public string Name => _data.Name;
         public int Damage => _data.Damage;
         public CardType Type => _data.CardType;
-
+        public string Id => _data.Id;
 
         public Card(CardData data)
         {
@@ -56,5 +56,6 @@ namespace CodeBase.Cards
 
         public bool TrySetInBattleSlot(int battleSlotIndex) => false;
         public float GetEffectStat(StatType type) => _data.EffectStats.FirstOrDefault(es => es.Type == type)!.Value;
+        public bool IsBanned { get; set; }
     }
 }

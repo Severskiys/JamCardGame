@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using CodeBase._Tools.StateMachine;
+using UnityEngine;
 
 namespace CodeBase.Battle
 {
     public class CheckBattleEndState : IState
     {
-        private IPlayersHolder _playersHolder;
-
+        private readonly IPlayersHolder _playersHolder;
+        private float _timer;
+        
         public CheckBattleEndState(IPlayersHolder playersHolder)
         {
             _playersHolder = playersHolder;
@@ -14,18 +16,7 @@ namespace CodeBase.Battle
         
         public void OnEnter()
         {
-            ContinueBattle = _playersHolder.BattlePlayers.All(p=> p.IsAlive);
-
-            if (ContinueBattle == false)
-            {
-                foreach (var player in _playersHolder.BattlePlayers)
-                {
-                    if (player.IsAlive)
-                        player.SetWin();
-                    else
-                        player.SetLose();
-                }
-            }
+            _timer = 1.55f;
         }
 
         public void OnExit()
@@ -35,10 +26,18 @@ namespace CodeBase.Battle
 
         public void Tick()
         {
-        
-        }
+            _timer -= Time.deltaTime;
 
-        public bool ContinueBattle { get; private set; }
-       
+            if (_timer < 0)
+            {
+                foreach (var player in _playersHolder.BattlePlayers)
+                {
+                        if (player.IsAlive)
+                            player.SetWin();
+                        else
+                            player.SetLose();
+                }
+            }
+        }
     }
 }

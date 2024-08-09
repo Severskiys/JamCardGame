@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Cards;
+using CodeBase.StaticData;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,16 +10,16 @@ namespace CodeBase.Battle
 {
     public class BattlePlayer : IPlayer, IBattleCardsConductor
     {
-        public event Action OnFillHand;
+        public event Action OnChangeCardsState;
         public event Action OnWin;
         public event Action OnLose;
         public event Action OnChangeHealth;
         public event Action OnMoveHandToDiscard;
         public event Action OnMoveCardsFromBattleToDiscard;
         public event Action PrepareToCompareState;
-        
+
         public Action OnSetBattleCards;
-        
+
         private string _id;
         private readonly IBattleRoom _battleRoom;
         public bool IsAlive => Health > 0;
@@ -55,17 +56,43 @@ namespace CodeBase.Battle
             {
                 if (Deck.Count <= 0)
                 {
-                    foreach (var card in Discard) 
+                    foreach (var card in Discard)
                         Deck.Add(card);
                     Discard.Clear();
                 }
 
                 var rndCard = Deck[Random.Range(0, Deck.Count)];
+                CheckCardsEffects(rndCard);
                 Deck.Remove(rndCard);
                 Hand.Add(rndCard);
             }
 
-            OnFillHand?.Invoke();
+            OnChangeCardsState?.Invoke();
+        }
+
+        private void CheckCardsEffects(ICard rndCard)
+        {
+            EffectType checkEffect = rndCard.Type switch
+            {
+                CardType.Rock => EffectType.StoneBan,
+                CardType.Scissor => EffectType.ScissorsBan,
+                CardType.Paper => EffectType.PaperBan,
+                _ => EffectType.NONE
+            };
+            
+            if (checkEffect != EffectType.NONE && HaveEffect(checkEffect))
+            {
+                rndCard.IsBanned = true;
+                if (Effects[checkEffect].CheckExpired())
+                    Effects.Remove(checkEffect);
+            }
+
+            if (HaveEffect(EffectType.HealBan) && rndCard.EffectType == EffectType.Heal)
+            {
+                rndCard.IsBanned = true;
+                if (Effects[EffectType.HealBan].CheckExpired())
+                    Effects.Remove(EffectType.HealBan);
+            }
         }
 
         public void ClearHandsToDiscard()
@@ -81,7 +108,7 @@ namespace CodeBase.Battle
         {
             foreach (var card in SetToBattle)
                 Discard.Add(card);
-            
+
             OnMoveCardsFromBattleToDiscard?.Invoke();
             SetToBattle.Clear();
         }
@@ -94,7 +121,13 @@ namespace CodeBase.Battle
             OnChangeHealth?.Invoke();
         }
 
-        public void SetPrepareToCompareState() => PrepareToCompareState?.Invoke();
+        public void SetPrepareToCompareState()
+        {
+            foreach (var card in Hand)
+                card.IsBanned = false;
+            
+            PrepareToCompareState?.Invoke();
+        }
 
         public void AddEffect(IEffect effect)
         {
@@ -120,6 +153,21 @@ namespace CodeBase.Battle
         public void ClearAllEffects()
         {
             Effects.Clear();
+        }
+
+        public virtual void StartSelectingCardsToBattle()
+        {
+        }
+
+        public bool HaveEffect(EffectType effectType) => Effects.ContainsKey(effectType);
+        public float GetEffectValue(EffectType effectType)
+        {
+            float value = Effects[effectType].GetStat(StatType.Amount);
+
+            if (Effects[effectType].CheckExpired())
+                Effects.Remove(effectType);
+
+            return value;
         }
 
         public void SetLose() => OnLose?.Invoke();

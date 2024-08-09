@@ -35,47 +35,19 @@ namespace CodeBase.Battle
             IState pendingState = new PendingState();
             ISelfCompleteState waitPlayersInputState = new WaitPlayerInputState(_slots, this);
             ISelfCompleteState clearHandsState = new ClearHandsState(this);
+            ApplyCardsEffectsState applyCardsEffectsState = new ApplyCardsEffectsState(this, _slots);
             ResolveCardsInteractionState resolveCardsInteractionState = new ResolveCardsInteractionState(this, _slots, cardArbiterService);
             ISelfCompleteState processEndOfTurnEffects = new ProcessEndOfTurnEffects(this);
             CheckBattleEndState checkBattleEndState = new CheckBattleEndState(this);
-            //вошли в бой
-            //подготовка руки
-            //ждем инпут от игрока
-            //сбрасываем карты
-            //сравниваем карты
-            //променяем доты
-            //проверям конец игры
-            
-            
-            
-            //вошли в бой
-            //подготовка руки
-            
-            //ждем инпут от игрока
-            //сравниваем карты
-            //проверям конец игры
-            
-            //ждем инпут от игрока
-            //сравниваем карты
-            //проверям конец игры
-            
-            //ждем инпут от игрока
-            //сравниваем карты
-            //сбрасываем карты
-            //променяем доты
-            //проверям конец игры
-
-
-
-            
-            
             
             _battleStateMachine.AddTransition(_prepareHandState, waitPlayersInputState, ()=> _prepareHandState.Complete);
-            _battleStateMachine.AddTransition(waitPlayersInputState, clearHandsState, ()=> waitPlayersInputState.Complete);
-            _battleStateMachine.AddTransition(clearHandsState, resolveCardsInteractionState, ()=> clearHandsState.Complete);
-            _battleStateMachine.AddTransition(resolveCardsInteractionState, processEndOfTurnEffects, ()=> resolveCardsInteractionState.Complete);
-            _battleStateMachine.AddTransition(processEndOfTurnEffects, checkBattleEndState, ()=> processEndOfTurnEffects.Complete);
-            _battleStateMachine.AddTransition(checkBattleEndState, _prepareHandState, ()=> checkBattleEndState.ContinueBattle);
+            _battleStateMachine.AddTransition(waitPlayersInputState, applyCardsEffectsState, ()=> waitPlayersInputState.Complete);
+            _battleStateMachine.AddTransition(applyCardsEffectsState, resolveCardsInteractionState, ()=> applyCardsEffectsState.Complete);
+            _battleStateMachine.AddTransition(resolveCardsInteractionState, waitPlayersInputState, ()=> resolveCardsInteractionState.Complete && resolveCardsInteractionState.EnterStateCount%_gameData.OneRoundLength != 0 && _players.All(p=>p.Value.IsAlive));
+            _battleStateMachine.AddTransition(resolveCardsInteractionState, clearHandsState, ()=> resolveCardsInteractionState.Complete && resolveCardsInteractionState.EnterStateCount%_gameData.OneRoundLength == 0 && _players.All(p=>p.Value.IsAlive));
+            _battleStateMachine.AddTransition(clearHandsState, processEndOfTurnEffects, ()=> clearHandsState.Complete);
+            _battleStateMachine.AddTransition(processEndOfTurnEffects, _prepareHandState, ()=> processEndOfTurnEffects.Complete);
+            _battleStateMachine.AddAnyTransition(checkBattleEndState, ()=> _players.Any(p=>p.Value.IsAlive == false) && resolveCardsInteractionState.Complete);
             _battleStateMachine.SetState(pendingState);
         }
         

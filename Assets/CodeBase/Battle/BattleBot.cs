@@ -12,11 +12,9 @@ namespace CodeBase.Battle
         public BattleBot(List<ICard> deck, string id, int health, int handSize, IBattleRoom room, List<BattleSlot> slots) : base(deck, id, health, handSize, room)
         {
             _slots = slots;
-            OnFillHand -= SelectCards;
-            OnFillHand += SelectCards;
         }
 
-        private void SelectCards()
+        public override void StartSelectingCardsToBattle()
         {
             for (var index = 0; index < _slots.Count; index++)
             {
@@ -25,6 +23,7 @@ namespace CodeBase.Battle
             }
             
             OnSetBattleCards?.Invoke();
+            base.StartSelectingCardsToBattle();
         }
     }
 }

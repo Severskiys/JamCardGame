@@ -18,11 +18,13 @@ namespace CodeBase.Cards
         public int Damage { get; }
         public CardType Type { get; }
         bool IsSelected { get; }
+        string Id { get; }
         public void ChangeSelection();
         public void SetWin();
         public void SetLose();
         public void SetEqual();
         public bool TrySetInBattleSlot(int battleSlotIndex);
         public float GetEffectStat(StatType amount);
+        public bool IsBanned { get; set; }
     }
 }

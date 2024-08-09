@@ -25,7 +25,7 @@ namespace CodeBase.UI.Mediators
         [SerializeField] private List<HandSlot> _handSlots;
         [SerializeField] private CardBattleView _cardPrefab;
 
-        private readonly Dictionary<ICard, CardBattleView> _spawnedCards = new();
+        private readonly Dictionary<string, CardBattleView> _spawnedCards = new();
         public GameObject GameObject => gameObject;
         public void Show()
         {
@@ -62,10 +62,12 @@ namespace CodeBase.UI.Mediators
                 instance.transform.DOLocalJump(Vector3.zero, 1.0f, 1, 0.35f)
                     .OnComplete(instance.Show)
                     .SetLink(instance.gameObject);
-                _spawnedCards.Add(playerHand[i], instance);
+                _spawnedCards.Add(GetCardId(playerHand[i]), instance);
                 instance.Init(playerHand[i]);
             }
         }
+
+        private static string GetCardId(ICard card) => card.PlayerId +card.Id;
 
         private void ClearSpawnedCards()
         {
@@ -95,8 +97,8 @@ namespace CodeBase.UI.Mediators
             {
                 CardBattleView instance = Instantiate(_cardPrefab, _enemySlots[i].transform);
                 instance.transform.DOScale(0, 0).SetLink(instance.gameObject);
-                instance.transform.DOScale(1.0f, 0.75f).SetLink(instance.gameObject);
-                _spawnedCards.Add(cards[i], instance);
+                instance.transform.DOScale(1.0f, 0.25f).SetLink(instance.gameObject);
+                _spawnedCards.Add(GetCardId(cards[i]), instance);
                 instance.Init(cards[i]);
             }
         }
@@ -105,15 +107,15 @@ namespace CodeBase.UI.Mediators
         {
             foreach (var card in cards)
             {
-                _spawnedCards[card].transform.DOMove(_discardView.transform.position, 0.35f).SetLink(_spawnedCards[card].gameObject);
-                _spawnedCards[card].transform.DOScale(.25f, 0.35f).SetLink(_spawnedCards[card].gameObject);
+                _spawnedCards[GetCardId(card)].transform.DOMove(_discardView.transform.position, 0.35f).SetLink(_spawnedCards[GetCardId(card)].gameObject);
+                _spawnedCards[GetCardId(card)].transform.DOScale(.25f, 0.35f).SetLink(_spawnedCards[GetCardId(card)].gameObject);
             }
         }
 
         public void ShowCards(List<ICard> cards)
         {
             foreach (var card in cards)
-                _spawnedCards[card].Show();
+                _spawnedCards[GetCardId(card)].Show();
         }
     }
 }

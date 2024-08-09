@@ -14,14 +14,15 @@ namespace CodeBase.Cards
         private readonly CardData _data;
         private readonly IBattleCardsConductor _conductor;
         private readonly ICard _card;
-
+        private bool _isBanned;
         public EffectType EffectType { get; }
         public List<SimpleStat> EffectStats { get; }
         public string PlayerId { get; }
         public string Name { get; }
         public int Damage { get; }
         public CardType Type { get; }
-        public bool IsSelected { get; set; }
+        public bool IsSelected { get; }
+        public string Id { get; }
 
         public BattleCard(ICard card, string playerId, IBattleCardsConductor conductor)
         {
@@ -34,6 +35,7 @@ namespace CodeBase.Cards
             Name = card.Name;
             Damage = card.Damage;
             Type = card.Type;
+            Id = card.Id;
         }
 
         public void ChangeSelection()
@@ -48,5 +50,16 @@ namespace CodeBase.Cards
 
         public bool TrySetInBattleSlot(int battleSlotIndex) => _conductor.TrySetCard(this, battleSlotIndex);
         public float GetEffectStat(StatType amount) => _card.GetEffectStat(amount);
+
+        public bool IsBanned
+        {
+            get => _isBanned;
+
+            set
+            {
+                OnChangeState?.Invoke();
+                _isBanned = value;
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace CodeBase.StaticData
         public int DeckSize;
         public int PlayerHealth;
         public int HandSize;
-        public bool DiscardUnselectedCards;
+        public int OneRoundLength;
         public int BattleSlotsCount;
         public List<CardData> CardDatas;
         public List<CardsWinningRelations> CardsRelations;

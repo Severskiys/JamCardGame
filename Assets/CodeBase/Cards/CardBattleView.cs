@@ -12,6 +12,7 @@ namespace CodeBase.Cards
         private ICard _battleCard;
 
         [SerializeField] private Image _back;
+        [SerializeField] private Image _bannedImage;
         
         public override void Init(ICard card)
         {
@@ -20,24 +21,36 @@ namespace CodeBase.Cards
             _battleCard.OnShowEqual += ShowEqual;
             _battleCard.OnShowWin += ShowWin;
             _battleCard.OnShowLose += ShowLose;
+            _battleCard.OnChangeState += SetBannedView;
+            SetBannedView();
         }
 
+        public void SetBannedView() => _bannedImage.gameObject.SetActive(Card.IsBanned);
         private void ShowEqual() => transform.DOScale(1.25f, 0.2f).OnComplete(() => transform.DOScale(1.0f, 0.15f));
         private void ShowWin() => transform.DOScale(1.15f, 0.2f).OnComplete(() => transform.DOScale(1.35f, 0.15f));
         private void ShowLose() => transform.DOScale(1.1f, 0.2f).OnComplete(() => transform.DOScale(0.65f, 0.15f));
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (Card.IsBanned)
+                return;
+            
             transform.localScale = Vector3.one * 1.125f;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
+            if (Card.IsBanned)
+                return;
+            
             transform.localPosition += new Vector3(eventData.delta.x, eventData.delta.y, 0) * UiRoot.GetScale();
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (Card.IsBanned)
+                return;
+            
             transform.localScale = Vector3.one;
             
             if (eventData != null
@@ -65,6 +78,7 @@ namespace CodeBase.Cards
             _battleCard.OnShowEqual -= ShowEqual;
             _battleCard.OnShowWin -= ShowWin;
             _battleCard.OnShowLose -= ShowLose;
+            _battleCard.OnChangeState -= SetBannedView;
         }
 
         private void ReturnCard()

@@ -19,6 +19,8 @@ namespace CodeBase.Battle
         public void OnEnter()
         {
             Complete = false;
+            foreach (var player in _playersHolder.BattlePlayers)
+                player.StartSelectingCardsToBattle();
         }
 
         public void OnExit()

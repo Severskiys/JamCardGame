@@ -24,5 +24,8 @@ namespace CodeBase.Battle
         public void AddEffect(IEffect effect);
         public void AddShield(float amount);
         public void ClearAllEffects();
+        public void StartSelectingCardsToBattle();
+        public bool HaveEffect(EffectType attackBonus);
+        public float GetEffectValue(EffectType attackBonus);
     }
 }

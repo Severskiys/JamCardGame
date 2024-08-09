@@ -48,7 +48,7 @@ namespace CodeBase.Infrastructure.States
             _bot.OnMoveCardsFromBattleToDiscard += MoveEnemyBattleCardsToDiscard;
             _bot.OnChangeHealth += SetEnemyHealth;
             _bot.OnSetBattleCards += SetEnemyBattleCards;
-            _player.OnFillHand += ProcessHandFill;
+            _player.OnChangeCardsState += ProcessHandFill;
             _player.OnWin += ShowWin;
             _player.OnLose += ShowLoose;
             _room.StartBattle();
@@ -76,7 +76,7 @@ namespace CodeBase.Infrastructure.States
             _bot.OnMoveCardsFromBattleToDiscard -= MoveEnemyBattleCardsToDiscard;
             _bot.OnChangeHealth -= SetEnemyHealth;
             _bot.OnSetBattleCards -= SetEnemyBattleCards;
-            _player.OnFillHand -= ProcessHandFill;
+            _player.OnChangeCardsState -= ProcessHandFill;
             _player.OnWin -= ShowWin;
             _player.OnLose -= ShowLoose;
         }
@@ -106,8 +106,14 @@ namespace CodeBase.Infrastructure.States
         private void SetEnemyHealth() => _battleMediator.SetEnemyHealth(_bot.Health, _bot.MaxHealth, _bot.Armor);
         private void SetPlayerHealth() => _battleMediator.SetPlayerHealth(_player.Health, _player.MaxHealth, _player.Armor);
         private void InitBattleMediator() => _battleMediator.Init(_player.Deck.Count, _player.Discard.Count);
-        private void MovePlayerBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_player.SetToBattle);
+        private void MovePlayerBattleCardsToDiscard()
+        {
+            _battleMediator.Init(_player.Deck.Count, _player.Discard.Count);
+            _battleMediator.MoveCardsToDiscard(_player.SetToBattle);
+        }
+
         private void MoveEnemyBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_bot.SetToBattle);
+
         private void MoveHandCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_player.Hand);
     }
 }
