@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   DeckSize: 15
-  PlayerHealth: 5
+  PlayerHealth: 100
   HandSize: 5
   OneRoundLength: 3
   BattleSlotsCount: 1
   CardDatas:
-  - Name: 
+  - Name: No Effect
     Id: 4fd8ec3f-8faf-4a79-afd3-830bfc5577df
     CardType: 0
     Damage: 5
     EffectType: 0
     EffectStats: []
-  - Name: Shield 1
+  - Name: Shield | 1
     Id: 6a7e749e-f93e-4e41-bde7-fa9d580b21e6
     CardType: 0
     Damage: 4
@@ -32,7 +32,7 @@ MonoBehaviour:
     EffectStats:
     - Type: 10
       Value: 1
-  - Name: Shield 2
+  - Name: Shield | 2
     Id: 736d77b3-ce03-4954-bdb8-365152e8f3a9
     CardType: 0
     Damage: 4
@@ -40,7 +40,7 @@ MonoBehaviour:
     EffectStats:
     - Type: 10
       Value: 2
-  - Name: Disable Paper
+  - Name: Disable Paper | 1
     Id: d93570e0-6828-400b-99c1-1e3a2a14dbf8
     CardType: 0
     Damage: 4
@@ -48,7 +48,7 @@ MonoBehaviour:
     EffectStats:
     - Type: 20
       Value: 1
-  - Name: Disable Scissors
+  - Name: Disable Scissors | 1
     Id: 98d48470-57f5-47d4-a3d6-f85f3dda075a
     CardType: 0
     Damage: 4
@@ -56,33 +56,33 @@ MonoBehaviour:
     EffectStats:
     - Type: 20
       Value: 1
-  - Name: 
+  - Name: No Effect
     Id: 0a4b2b0c-9172-4288-9be8-600a72d0a7b2
     CardType: 10
     Damage: 5
     EffectType: 0
     EffectStats: []
-  - Name: Bleed 2
+  - Name: Bleed | 2
     Id: 83cab4a7-2684-4f3b-898f-3b6819272985
     CardType: 10
     Damage: 4
     EffectType: 200
     EffectStats:
     - Type: 10
-      Value: 1
-    - Type: 20
       Value: 2
-  - Name: Bleed 3
+    - Type: 20
+      Value: 1
+  - Name: Bleed | 3
     Id: 165682a3-7a3c-49a9-88ef-80fac6b6838e
     CardType: 10
     Damage: 4
     EffectType: 200
     EffectStats:
     - Type: 10
-      Value: 1
-    - Type: 20
       Value: 3
-  - Name: Disable Heal 1
+    - Type: 20
+      Value: 1
+  - Name: Disable Heal | 1
     Id: 314dce42-fab5-46ae-91db-8ca45b294599
     CardType: 10
     Damage: 4
@@ -90,7 +90,7 @@ MonoBehaviour:
     EffectStats:
     - Type: 20
       Value: 1
-  - Name: Disable Heal 2
+  - Name: Disable Heal | 2
     Id: 56f77390-b99e-4eea-8a7d-04f6a246bff5
     CardType: 10
     Damage: 4
@@ -98,13 +98,13 @@ MonoBehaviour:
     EffectStats:
     - Type: 20
       Value: 2
-  - Name: 
+  - Name: No Effect
     Id: f265d0cc-d25d-40ea-b56b-69e8880f0a60
     CardType: 100
     Damage: 5
     EffectType: 0
     EffectStats: []
-  - Name: Heal 2
+  - Name: Heal | 2
     Id: 33e1de19-5f45-4129-9083-6f7fdcd7cb6e
     CardType: 100
     Damage: 4
@@ -112,7 +112,7 @@ MonoBehaviour:
     EffectStats:
     - Type: 10
       Value: 2
-  - Name: Heal 5
+  - Name: Heal | 5
     Id: a55e70b9-369a-4c67-941b-481c7b83a4cf
     CardType: 100
     Damage: 4
@@ -132,6 +132,32 @@ MonoBehaviour:
     Damage: 4
     EffectType: 400
     EffectStats: []
+  - Name: Attack Bonus | 2
+    Id: 144a9669-907f-4c65-bd95-7564347ff4e5
+    CardType: 0
+    Damage: 4
+    EffectType: 1100
+    EffectStats:
+    - Type: 20
+      Value: 2
+    - Type: 10
+      Value: 2
+  - Name: Heal on Card Win | 3
+    Id: 9e032382-fa95-4477-9484-91d065681dbb
+    CardType: 10
+    Damage: 4
+    EffectType: 900
+    EffectStats:
+    - Type: 10
+      Value: 2
+  - Name: Shield On Loose | 3
+    Id: b4f65c68-11bb-472f-861f-31ef33a10d18
+    CardType: 10
+    Damage: 4
+    EffectType: 1000
+    EffectStats:
+    - Type: 10
+      Value: 3
   CardsRelations:
   - Winner: 0
     Losers: 0a000000
