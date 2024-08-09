@@ -13,6 +13,7 @@ namespace CodeBase.Cards
 
         [SerializeField] private Image _back;
         [SerializeField] private Image _bannedImage;
+        [SerializeField] private Image _front;
         
         public override void Init(ICard card)
         {
@@ -34,7 +35,7 @@ namespace CodeBase.Cards
         {
             if (Card.IsBanned)
                 return;
-            
+            _front.raycastTarget = false;
             transform.localScale = Vector3.one * 1.125f;
         }
 
@@ -50,7 +51,7 @@ namespace CodeBase.Cards
         {
             if (Card.IsBanned)
                 return;
-            
+            _front.raycastTarget = true;
             transform.localScale = Vector3.one;
             
             if (eventData != null
