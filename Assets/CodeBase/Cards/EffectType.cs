@@ -13,8 +13,6 @@
         HealBan = 800,
         HealOnCardWin = 900,
         ShieldOnLoose = 1000,
-        ShieldHit = 1100,
-        DamageReflection = 1200,
-        ShieldCrush = 1300,
+        AttackBonus = 1100,
     }
 }

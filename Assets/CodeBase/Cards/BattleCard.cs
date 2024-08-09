@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.StaticData;
-using UnityEngine;
 
 namespace CodeBase.Cards
 {
     public class BattleCard : ICard
-    {       
+    {
         public event Action OnChangeState;
         public event Action OnShowWin;
         public event Action OnShowLose;
         public event Action OnShowEqual;
+
+        private readonly CardData _data;
+        private readonly IBattleCardsConductor _conductor;
+        private readonly ICard _card;
+
         public EffectType EffectType { get; }
         public List<SimpleStat> EffectStats { get; }
-        public string PlayerId { get;}
-        public string Name { get;}
-        public int Damage { get;}
-        public Sprite Sprite { get; }
-        public CardType Type { get;}
+        public string PlayerId { get; }
+        public string Name { get; }
+        public int Damage { get; }
+        public CardType Type { get; }
         public bool IsSelected { get; set; }
-        
-        private readonly CardData _data;
-        private IBattleCardsConductor _conductor;
 
         public BattleCard(ICard card, string playerId, IBattleCardsConductor conductor)
         {
+            _card = card;
             _conductor = conductor;
             IsSelected = true;
             PlayerId = playerId;
@@ -33,14 +34,12 @@ namespace CodeBase.Cards
             Name = card.Name;
             Damage = card.Damage;
             Type = card.Type;
-            Sprite = card.Sprite;
         }
-        
+
         public void ChangeSelection()
         {
-            
         }
-        
+
         public void SetWin() => OnShowWin?.Invoke();
 
         public void SetLose() => OnShowLose?.Invoke();
@@ -48,6 +47,6 @@ namespace CodeBase.Cards
         public void SetEqual() => OnShowEqual?.Invoke();
 
         public bool TrySetInBattleSlot(int battleSlotIndex) => _conductor.TrySetCard(this, battleSlotIndex);
-        
+        public float GetEffectStat(StatType amount) => _card.GetEffectStat(amount);
     }
 }

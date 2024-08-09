@@ -35,9 +35,40 @@ namespace CodeBase.Battle
             IState pendingState = new PendingState();
             ISelfCompleteState waitPlayersInputState = new WaitPlayerInputState(_slots, this);
             ISelfCompleteState clearHandsState = new ClearHandsState(this);
-            ISelfCompleteState resolveCardsInteractionState = new ResolveCardsInteractionState(this, _slots, cardArbiterService);
-            ISelfCompleteState processEndOfTurnEffects = new ProcessEndOfTurnEffects();
+            ResolveCardsInteractionState resolveCardsInteractionState = new ResolveCardsInteractionState(this, _slots, cardArbiterService);
+            ISelfCompleteState processEndOfTurnEffects = new ProcessEndOfTurnEffects(this);
             CheckBattleEndState checkBattleEndState = new CheckBattleEndState(this);
+            //вошли в бой
+            //подготовка руки
+            //ждем инпут от игрока
+            //сбрасываем карты
+            //сравниваем карты
+            //променяем доты
+            //проверям конец игры
+            
+            
+            
+            //вошли в бой
+            //подготовка руки
+            
+            //ждем инпут от игрока
+            //сравниваем карты
+            //проверям конец игры
+            
+            //ждем инпут от игрока
+            //сравниваем карты
+            //проверям конец игры
+            
+            //ждем инпут от игрока
+            //сравниваем карты
+            //сбрасываем карты
+            //променяем доты
+            //проверям конец игры
+
+
+
+            
+            
             
             _battleStateMachine.AddTransition(_prepareHandState, waitPlayersInputState, ()=> _prepareHandState.Complete);
             _battleStateMachine.AddTransition(waitPlayersInputState, clearHandsState, ()=> waitPlayersInputState.Complete);

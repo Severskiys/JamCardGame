@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Tools.PersistentValues;
 using CodeBase.StaticData;
-using UnityEngine;
 
 namespace CodeBase.Cards
 {
@@ -14,24 +14,21 @@ namespace CodeBase.Cards
         public event Action OnShowEqual;
         private readonly CardData _data;
         private readonly BoolDataValueSavable _selectState;
-        
-        public EffectType EffectType  => _data.EffectType;
-        public List<SimpleStat> EffectStats  => _data.EffectStats;
+
+        public EffectType EffectType => _data.EffectType;
+        public List<SimpleStat> EffectStats => _data.EffectStats;
         public string PlayerId { get; set; }
         public string Name => _data.Name;
         public int Damage => _data.Damage;
-        public Sprite Sprite => _data.Sprite;
         public CardType Type => _data.CardType;
-        
 
 
         public Card(CardData data)
         {
             _data = data;
             _selectState = new BoolDataValueSavable("Select_state_" + _data.Id);
-            
         }
-        
+
         public bool IsSelected
         {
             get => _selectState.Value;
@@ -42,27 +39,22 @@ namespace CodeBase.Cards
                 OnChangeState?.Invoke();
             }
         }
-        
+
         public void ChangeSelection() => IsSelected = !IsSelected;
-        
+
         public void SetWin()
         {
-            
         }
-        
+
         public void SetLose()
         {
-            
         }
 
         public void SetEqual()
         {
-
         }
 
-        public bool TrySetInBattleSlot(int battleSlotIndex)
-        {
-            return false;
-        }
+        public bool TrySetInBattleSlot(int battleSlotIndex) => false;
+        public float GetEffectStat(StatType type) => _data.EffectStats.FirstOrDefault(es => es.Type == type)!.Value;
     }
 }

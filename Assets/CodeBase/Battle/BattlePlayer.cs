@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Cards;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,8 +31,7 @@ namespace CodeBase.Battle
         public List<ICard> Hand { get; }
         public List<ICard> SetToBattle { get; }
         public List<ICard> Discard { get; }
-
-
+        public Dictionary<EffectType, IEffect> Effects { get; }
 
         public BattlePlayer(List<ICard> deck, string id, int health, int handSize, IBattleRoom battleRoom)
         {
@@ -42,8 +42,9 @@ namespace CodeBase.Battle
             HandSize = handSize;
             Deck = new List<ICard>();
             Hand = new List<ICard>();
-            SetToBattle = new List<ICard>();
             Discard = new List<ICard>();
+            SetToBattle = new List<ICard>();
+            Effects = new Dictionary<EffectType, IEffect>();
             foreach (var card in deck)
                 Deck.Add(new BattleCard(card, id, this));
         }
@@ -90,12 +91,37 @@ namespace CodeBase.Battle
             int pearceDamage = damage - Armor;
             Armor = Mathf.Max(0, Armor - damage);
             Health -= pearceDamage;
-            
             OnChangeHealth?.Invoke();
         }
 
         public void SetPrepareToCompareState() => PrepareToCompareState?.Invoke();
-        
+
+        public void AddEffect(IEffect effect)
+        {
+            if (Effects.TryGetValue(effect.Type, out var existingEffect))
+                existingEffect.TryAddDuration(effect);
+            else
+                Effects.Add(effect.Type, effect);
+        }
+
+        public void Heal(float healAmount)
+        {
+            Health += Mathf.CeilToInt(healAmount);
+            Health = Mathf.Min(Health, MaxHealth);
+            OnChangeHealth?.Invoke();
+        }
+
+        public void AddShield(float amount)
+        {
+            Armor += Mathf.CeilToInt(amount);
+            OnChangeHealth?.Invoke();
+        }
+
+        public void ClearAllEffects()
+        {
+            Effects.Clear();
+        }
+
         public void SetLose() => OnLose?.Invoke();
 
         public void SetWin() => OnWin?.Invoke();

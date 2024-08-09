@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase._Tools.Helpers;
 using CodeBase.Cards;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,9 @@ namespace CodeBase.UI.Mediators
         [SerializeField] private CardsHeapView _deckView;
         [SerializeField] private CardsHeapView _discardView;
         [SerializeField] private Image _playerHpView;
+        [SerializeField] private TMP_Text _playerArmor;
         [SerializeField] private Image _enemyHpView;
+        [SerializeField] private TMP_Text _enemyArmor;
         [SerializeField] private List<HandSlot> _handSlots;
         [SerializeField] private CardBattleView _cardPrefab;
 
@@ -28,6 +31,8 @@ namespace CodeBase.UI.Mediators
         {
             _playerHpView.fillAmount = 1.0f;
             _enemyHpView.fillAmount = 1.0f;
+            _playerArmor.text = "0";
+            _enemyArmor.text = "0";
             _canvasGroup.Show();
         }
 
@@ -72,8 +77,18 @@ namespace CodeBase.UI.Mediators
             _spawnedCards.Clear();
         }
 
-        public void SetEnemyHealth(int health, int maxHealth) => _enemyHpView.DOFillAmount((float)health / maxHealth, 0.15f);
-        public void SetPlayerHealth(int health, int maxHealth) => _playerHpView.DOFillAmount((float)health / maxHealth, 0.15f);
+        public void SetEnemyHealth(int health, int maxHealth, int botArmor)
+        {
+            _enemyArmor.text = botArmor.ToString();
+            _enemyHpView.DOFillAmount((float)health / maxHealth, 0.15f);
+        }
+
+        public void SetPlayerHealth(int health, int maxHealth, int playerArmor)
+        {
+            _playerArmor.text = playerArmor.ToString();
+            _playerHpView.DOFillAmount((float)health / maxHealth, 0.15f);
+        }
+
         public void SetEnemyBattleCards(List<ICard> cards)
         {
             for (var i = 0; i < cards.Count; i++)

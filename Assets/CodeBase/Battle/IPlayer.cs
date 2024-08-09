@@ -20,5 +20,9 @@ namespace CodeBase.Battle
         public void SetWin();
         public void DiscardCardsFromBattle();
         public void SetPrepareToCompareState();
+        public void Heal(float amount);
+        public void AddEffect(IEffect effect);
+        public void AddShield(float amount);
+        public void ClearAllEffects();
     }
 }

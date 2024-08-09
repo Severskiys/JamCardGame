@@ -103,8 +103,8 @@ namespace CodeBase.Infrastructure.States
             Complete = true;
         }
 
-        private void SetEnemyHealth() => _battleMediator.SetEnemyHealth(_bot.Health, _bot.MaxHealth);
-        private void SetPlayerHealth() => _battleMediator.SetPlayerHealth(_player.Health, _player.MaxHealth);
+        private void SetEnemyHealth() => _battleMediator.SetEnemyHealth(_bot.Health, _bot.MaxHealth, _bot.Armor);
+        private void SetPlayerHealth() => _battleMediator.SetPlayerHealth(_player.Health, _player.MaxHealth, _player.Armor);
         private void InitBattleMediator() => _battleMediator.Init(_player.Deck.Count, _player.Discard.Count);
         private void MovePlayerBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_player.SetToBattle);
         private void MoveEnemyBattleCardsToDiscard() => _battleMediator.MoveCardsToDiscard(_bot.SetToBattle);

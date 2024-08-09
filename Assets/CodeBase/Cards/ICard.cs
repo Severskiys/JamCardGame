@@ -16,7 +16,6 @@ namespace CodeBase.Cards
         public string PlayerId { get; }
         public string Name { get; }
         public int Damage { get; }
-        public Sprite Sprite { get; }
         public CardType Type { get; }
         bool IsSelected { get; }
         public void ChangeSelection();
@@ -24,5 +23,6 @@ namespace CodeBase.Cards
         public void SetLose();
         public void SetEqual();
         public bool TrySetInBattleSlot(int battleSlotIndex);
+        public float GetEffectStat(StatType amount);
     }
 }

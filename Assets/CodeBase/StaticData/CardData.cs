@@ -14,7 +14,6 @@ namespace CodeBase.StaticData
         public int Damage;
         public EffectType EffectType;
         public List<SimpleStat> EffectStats;
-        public Sprite Sprite;
     }
     
     [Serializable]
